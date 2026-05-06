@@ -59,10 +59,14 @@ class QueueProvider extends ChangeNotifier {
 
     final appointmentDateTime = DateTime(date.year, date.month, date.day, hour, minute);
 
-    // 4. Check for conflicts (max 1 per slot)
-    final existingInSlot = appointments.where((a) => a.dateTime == appointmentDateTime && a.status != 'cancelled').length;
+    // 4. Check for conflicts (max 1 per slot per service)
+    final existingInSlot = appointments.where((a) => 
+      a.dateTime == appointmentDateTime && 
+      a.serviceType == serviceType && 
+      a.status != 'cancelled'
+    ).length;
     if (existingInSlot >= 1) {
-      return 'Time slot is already booked';
+      return 'Time slot is already booked for this service';
     }
 
     // 5. Generate ID and Queue Position
@@ -123,16 +127,25 @@ class QueueProvider extends ChangeNotifier {
 
     final newDateTime = DateTime(newDate.year, newDate.month, newDate.day, hour, minute);
 
-    // 2. Conflict check (max 3 per slot, excluding this appointment)
-    final existingInSlot = appointments.where((a) => a.dateTime == newDateTime && a.id != id && a.status != 'cancelled').length;
+    // 2. Fetch existing appointment
+    final index = appointments.indexWhere((a) => a.id == id);
+    if (index == -1) return 'Appointment not found';
+    final appointment = _appointmentBox.getAt(index);
+    if (appointment == null) return 'Appointment not found';
+
+    // 3. Conflict check (max 1 per slot per service)
+    final existingInSlot = appointments.where((a) => 
+      a.dateTime == newDateTime && 
+      a.serviceType == appointment.serviceType && 
+      a.id != id && 
+      a.status != 'cancelled'
+    ).length;
     if (existingInSlot >= 1) {
-      return 'Time slot is already booked';
+      return 'Time slot is already booked for this service';
     }
 
-    // 3. Update
-    final index = appointments.indexWhere((a) => a.id == id);
+    // 4. Update
     if (index != -1) {
-      final appointment = _appointmentBox.getAt(index);
       if (appointment != null) {
         // Sync with Hive
         _appointmentBox.putAt(index, Appointment(
