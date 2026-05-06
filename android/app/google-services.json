@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "979081234462",
+    "project_id": "smartqueue-aef3f",
+    "storage_bucket": "smartqueue-aef3f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979081234462:android:ced4d0d5eb8dfea085c60f",
+        "android_client_info": {
+          "package_name": "com.company.smartqueue"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwbkWs3N86A17AeIlPMRmT6pMtneLByLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979081234462:android:6781aa70a595094285c60f",
+        "android_client_info": {
+          "package_name": "com.example.smart_queue_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwbkWs3N86A17AeIlPMRmT6pMtneLByLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
